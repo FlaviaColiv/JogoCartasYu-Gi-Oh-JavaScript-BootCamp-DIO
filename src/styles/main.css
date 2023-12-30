@@ -1,3 +1,14 @@
+body {
+    cursor: url("../assets/cursor/yugicursor.png"), default;
+}
+
+button,
+a,
+img:hover,
+button:hover {
+    cursor: url("../assets/cursor/yamiyugicursorGLOW.png"), auto;
+}
+
 .bg-video {
     position: absolute;
     z-index: -2;
@@ -76,6 +87,10 @@
     font-size: 1rem;
 }
 
+.menu_avatar {
+    height: 228px;
+}
+
 .card-box__container {
     height: 100vh;
     display: flex;
@@ -131,8 +146,4 @@
 
 .card:hover {
     transform: scale(1.15);
-}
-
-.debug {
-    border: 1px solid red;
 }
