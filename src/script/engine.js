@@ -4,29 +4,30 @@ const state = {
         computerScore: 0,
         scoreBox: document.getElementById("score_points"),
     },
-
     cardSprites: {
         avatar: document.getElementById("card-image"),
         name: document.getElementById("card-name"),
         type: document.getElementById("card-type"),
     },
-
     fieldCards: {
         player: document.getElementById("player-field-card"),
         computer: document.getElementById("computer-field-card"),
     },
-
     playerSides: {
         player1: "player-cards",
         player1BOX: document.querySelector("#player-cards"),
         computer: "computer-cards",
         computerBOX: document.querySelector("#computer-cards"),
     },
-
     actions: {
         button: document.getElementById("next-duel"),
     },
 };
+
+
+
+
+
 
 const pathImages = "./src/assets/icons/";
 
@@ -39,7 +40,6 @@ const cardData = [
         WinOf: [1],
         LoseOf: [2],
     },
-
     {
         id: 1,
         name: "Dark Magician",
@@ -48,7 +48,6 @@ const cardData = [
         WinOf: [2],
         LoseOf: [0],
     },
-
     {
         id: 2,
         name: "Exodia",
@@ -86,18 +85,42 @@ async function createCardImage(IdCard, fieldSide) {
 
 async function setCardsField(cardId) {
     await removeAllCardsImages();
+    
     let computerCardId = await getRandomCardId();
 
-    state.fieldCards.player.style.display = "block";
-    state.fieldCards.computer.style.display = "block";
+    await showHiddenCardFieldsImage(true);
 
-    state.fieldCards.player.src = cardData[cardId].img;
-    state.fieldCards.computer.src = cardData[computerCardId].img;
+    await hiddenCardDetails();
+
+    await drawCardsIdField(cardId, computerCardId);
 
     let duelResults = await checkDuelResults(cardId, computerCardId);
 
-    await drawButton(duelResults);
     await upDateScore();
+    await drawButton(duelResults);
+}
+
+async function drawCardsIdField(cardId, computerCardId) {
+    state.fieldCards.player.src = cardData[cardId].img;
+    state.fieldCards.computer.src = cardData[computerCardId].img;
+}
+
+async function showHiddenCardFieldsImage(value) {
+    if(value === true) {
+        state.fieldCards.player.style.display = "block";
+        state.fieldCards.computer.style.display = "block";
+    } 
+    
+    if(value === false) {
+        state.fieldCards.player.style.display = "none";
+        state.fieldCards.computer.style.display = "none";
+    }
+}
+
+async function hiddenCardDetails() {
+    state.cardSprites.avatar.src = "";
+    state.cardSprites.name.innerText = "";
+    state.cardSprites.type.innerText = "";
 }
 
 async function drawButton(text) {
@@ -170,6 +193,8 @@ async function playAudio(status) {
 }
 
 function init() {
+    showHiddenCardFieldsImage(false);
+
     drawCards(5, state.playerSides.player1);
     drawCards(5, state.playerSides.computer);
 }
